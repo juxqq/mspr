@@ -2,16 +2,13 @@ class User {
   final int id;
   final String lastname;
   final String firstname;
-  final String adress;
+  final String email;
+  final String address;
   final String city;
   final String zipCode;
-  final String plant;
-  final String role;
-  final String email;
   final String password;
-  final DateTime birthDate;
-  final DateTime dateRegistration;
   final String profilePicture;
+  final bool isBotanist;
 
   /*get pdp{
     return NetworkImage('$uriApi/images/$pdpName');
@@ -21,31 +18,25 @@ class User {
       this.id,
       this.lastname,
       this.firstname,
-      this.adress,
+      this.email,
+      this.address,
       this.city,
       this.zipCode,
-      this.plant,
-      this.role,
-      this.email,
       this.password,
-      this.birthDate,
-      this.dateRegistration,
-      this.profilePicture);
+      this.profilePicture,
+      this.isBotanist);
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         lastname = json['lastname'],
         firstname = json['firstname'],
-        adress = json['adress'],
+        email = json['email'],
+        address = json['address'],
         city = json['city'],
         zipCode = json['zipCode'],
-        plant = json['plant'],
-        role = json['role'],
-        email = json['email'],
         password = json['password'],
-        birthDate = json['birthDate'],
-        dateRegistration = json['dateRegistration'],
-        profilePicture = json['profilePicture'];
+        profilePicture = json['profilePicture'],
+        isBotanist = json['isBotanist'];
 
 /*  Map<String, dynamic> toJson() => {
         'id': id,
