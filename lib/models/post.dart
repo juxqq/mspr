@@ -1,22 +1,38 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class Post {
   final int id;
-  final int userId;
-  final String role;
-  final String content;
-  final String comments;
-  final int likes;
-  final DateTime datePost;
-  final int plantId;
+  final int idKeeper;
+  final String title;
+  final String description;
+  final String pictureUrl;
+  final int idUserPlant;
+  final LatLng latitude;
+  final LatLng longitude;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
-  Post(this.id, this.userId, this.role, this.content, this.comments, this.likes, this.datePost, this.plantId);
+  Post(
+      this.id,
+      this.idKeeper,
+      this.title,
+      this.description,
+      this.pictureUrl,
+      this.idUserPlant,
+      this.latitude,
+      this.longitude,
+      this.createdAt,
+      this.updatedAt);
 
-  Post.fromJson(Map<String, dynamic> json):
-        id = json['id'],
-        userId = json['userId'],
-        role = json['role'],
-        content = json['content'],
-        comments = json['comments'],
-        likes = json['likes'],
-        datePost = json['datePost'],
-        plantId = json['plantId'];
+  Post.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        idKeeper = json['idKeeper'],
+        title = json['title'],
+        description = json['description'],
+        pictureUrl = json['pictureUrl'],
+        idUserPlant = json['idUserPlant'],
+        latitude = json['latitude'],
+        longitude = json['longitude'],
+        createdAt = json['createdAt'],
+        updatedAt = json['updatedAt'];
 }
