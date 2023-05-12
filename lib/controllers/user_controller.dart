@@ -42,7 +42,7 @@ class UserController {
       return false;
     }
 
-    UserService.setToken(json['token'], json['refreshToken'], user);
+    UserService.setToken(json['token']);
     return true;
   }
 }

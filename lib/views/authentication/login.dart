@@ -3,6 +3,8 @@ import 'package:mspr/controllers/user_controller.dart';
 import 'package:mspr/extensions/validator_extensions.dart';
 import 'package:mspr/utils/utils.dart';
 import 'package:mspr/share/app_style.dart';
+import 'package:mspr/services/user_service.dart';
+import 'package:mspr/models/user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -144,15 +146,20 @@ class LoginPageState extends State<LoginPage> {
                 MaterialButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      UserController.connect(mailController.value.text,
+                      UserService.login(mailController.value.text,
                               passwordController.value.text)
                           .then((value) {
                         if (value == true) {
-                          Navigator.pushNamed(context, "/settings");
+                          Navigator.pushNamed(context, "/botanist_home");
+                          /*if (User.isBotanist == true) {
+                            Navigator.pushNamed(context, "/botanist_home");
+                          } else {
+                            Navigator.pushNamed(context, "/test");
+                          }*/
                         } else {
                           showSnackBar(
                               context,
-                              'Identifiants incorrects ou compte non confirmé',
+                              'Identifiants incorrects',
                               Colors.red);
                         }
                       });
