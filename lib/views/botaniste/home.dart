@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:mspr/models/plant.dart';
+import 'package:mspr/models/user_plant.dart';
 import 'package:mspr/share/app_style.dart';
 import 'package:mspr/models/post.dart';
 import 'package:mspr/utils/utils.dart';
@@ -13,11 +15,12 @@ class BotanistHome extends StatefulWidget {
 }
 
 class _BotanistHomeState extends State<BotanistHome> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   String? plantFilter;
   String? postFilter;
   final GlobalKey<FormState> _key = GlobalKey();
   List<Post> posts = [];
+  List<Post> filteredPosts = [];
   DateTime createdAt = DateTime(2002, 5, 17, 10, 30, 0);
   DateTime updatedAt = DateTime(2002, 5, 17, 10, 45, 0);
   final TextEditingController contentCommentController =
@@ -34,7 +37,7 @@ class _BotanistHomeState extends State<BotanistHome> {
         posts = [
           Post(
               1,
-              0,
+              1,
               'test1',
               'J essaye de mettre une description plus grande que l actuelle pour tester le responsive et l overflow',
               'assets/img/image-removebg-preview.png',
@@ -48,6 +51,7 @@ class _BotanistHomeState extends State<BotanistHome> {
           Post(3, 3, 'test3', 'test3', 'assets/img/image-removebg-preview.png',
               3, "10", "10", createdAt, updatedAt),
         ];
+        filteredPosts = posts;
       });
     });
   }
@@ -135,12 +139,13 @@ class _BotanistHomeState extends State<BotanistHome> {
                                     setState(() {
                                       plantFilter = newValue;
                                     });
+                                    filterPosts();
                                   },
                                   items: <String>[
-                                    'Roses',
-                                    'Tulipes',
+                                    'Rose',
+                                    'Tulipe',
                                     'Lys',
-                                    'Orchidées'
+                                    'Orchidée'
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
@@ -214,7 +219,7 @@ class _BotanistHomeState extends State<BotanistHome> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: posts.length,
+                    itemCount: filteredPosts.length,
                     itemBuilder: (context, index) {
                       final post = posts[index];
                       return Padding(
@@ -360,17 +365,6 @@ class _BotanistHomeState extends State<BotanistHome> {
                                                               fontSize: 16.0),
                                                         ),
                                                       ),
-                                                      MaterialButton(
-                                                        onPressed: () {
-                                                          _getImage();
-                                                        },
-                                                        child: const Text(
-                                                          "Commenter",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 16.0),
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -432,6 +426,43 @@ class _BotanistHomeState extends State<BotanistHome> {
         ],
       ),
     );
+  }
+
+  void filterPosts() {
+    if (plantFilter == null || plantFilter == 'Tous les postes') {
+      setState(() {
+        filteredPosts = posts; // Afficher tous les posts si aucun filtre n'est sélectionné
+      });
+    } else {
+      setState(() {
+        filteredPosts = posts
+            .where((post) {
+          // Obtenir l'objet UserPlant correspondant au post
+          final userPlant = getUserPlant(post.idUserPlant);
+
+          // Obtenir l'objet Plant correspondant à l'objet UserPlant
+          final plant = getPlant(userPlant.idPlant);
+
+          // Filtrer les posts en fonction du nom de la plante
+          return plant.name == plantFilter;
+        })
+            .toList();
+      });
+    }
+  }
+
+  // Faire la logique des postes gardés et non gardés : IdKeeper != 0 vice versa
+
+  UserPlant getUserPlant(int userPlantId) {
+    // Remplacez cette logique par votre méthode pour récupérer l'objet UserPlant correspondant à l'ID donné
+    // Vous pouvez utiliser une boucle ou une méthode de recherche appropriée ici
+    return UserPlant(1, 1, 1);
+  }
+
+  Plant getPlant(int plantId) {
+    // Remplacez cette logique par votre méthode pour récupérer l'objet Plant correspondant à l'ID donné
+    // Vous pouvez utiliser une boucle ou une méthode de recherche appropriée ici
+    return Plant(1, 'Rose');
   }
 
   _getImage() async {
