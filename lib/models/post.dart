@@ -7,8 +7,8 @@ class Post {
   final String description;
   final String pictureUrl;
   final int idUserPlant;
-  final LatLng latitude;
-  final LatLng longitude;
+  final String latitude;
+  final String longitude;
   final DateTime createdAt;
   final DateTime updatedAt;
 

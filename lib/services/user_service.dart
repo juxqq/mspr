@@ -1,19 +1,21 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_session/flutter_session.dart';
 import 'package:mspr/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
-  static const String uri =
-      'https://www.dorian-roulet.com/stage_2022_01x02_epsi';
+  static final apiUrl = dotenv.env['API_URL'];
   static final session = FlutterSession();
+
 
   static Future<dynamic> getUser(param, value) async {
     var json = <String, dynamic>{'response': false};
 
     try {
       final response =
-      await http.get(Uri.parse('$uri/login.php?$param=$value'));
+          await http.get(Uri.parse('$apiUrl/login.php?$param=$value'));
 
       if (response.statusCode == 200) {
         json = jsonDecode(utf8.decode(response.bodyBytes))[0];
@@ -29,38 +31,74 @@ class UserService {
     }
   }
 
-  static Future<dynamic>updateUser(
+  static Future<bool> updateUser(
       firstName, lastName, email, address, city, zipCode) async {
     try {
-      await getUser("email", email).then((value) {
-        if (value['response'] == true) {
-          return false;
-        }
-      });
+      final response = await getUser("email", email);
+      if (response['response'] == true) {
+        return false;
+      }
     } catch (e) {
       return false;
     }
 
     try {
-      final response =
-      await http.put(Uri.parse('$uri/put.php'), body: {
-        "firstName": "$firstName",
-        "lastName": "$lastName",
-        "email": "$email",
-        "address": "$address",
-        "city": "$city",
-        "zipCode": "$zipCode",
+      final response = await http.put(Uri.parse('$apiUrl/put.php'), body: {
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+        "address": address,
+        "city": city,
+        "zipCode": zipCode,
       });
 
       if (response.statusCode != 200) {
         return false;
       }
-    } catch (identifier) {
+    } catch (e) {
       return false;
     }
 
     return true;
   }
+
+  static Future<bool> login(email, password) async {
+    Map<String, dynamic> requestPayload = {
+      "username": email,
+      "password": password
+    };
+
+    try {
+      final response = await http.post(Uri.parse('$apiUrl/login'),
+          body: jsonEncode(requestPayload), headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 200) {
+        final responseBody = json.decode(response.body);
+        final token = responseBody['token'];
+        setToken(token);
+
+        return true;
+      }
+    } catch (e) {
+      throw Exception('Error while trying to login: $e');
+    }
+
+    return false;
+  }
+
+  Future<List<dynamic>> getUsers() async {
+    final response = await http.get(Uri.parse('$apiUrl/api/users'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final users = data['hydra:member'];
+
+      return users;
+    } else {
+      throw Exception('Failed to load users');
+    }
+  }
+
 
   static Future<dynamic> createUser(
       email, lastName, firstName, birthDate, zipCode, city, password) async {
@@ -75,7 +113,7 @@ class UserService {
     }
 
     try {
-      final response = await http.post(Uri.parse('$uri/post.php'), body: {
+      final response = await http.post(Uri.parse('$apiUrl/post.php'), body: {
         "email": "$email",
         "lastName": "$lastName",
         "firstName": "$firstName",
@@ -86,7 +124,7 @@ class UserService {
       });
 
       await http.post(Uri.parse(
-          '$uri/checkMail.php?email=$email')); // requete d'envoie mail confirmation
+          '$apiUrl/checkMail.php?email=$email')); // requete d'envoie mail confirmation
 
       if (response.statusCode != 200) {
         return false;
@@ -109,7 +147,8 @@ class UserService {
     User user = User.fromJson(data[0]);
 
     try {
-      final response = await http.get(Uri.parse('$uri/mail.php?mail=$login'));
+      final response =
+          await http.get(Uri.parse('$apiUrl/mail.php?mail=$login'));
 
       if (response.statusCode == 200) {
         var json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -131,7 +170,22 @@ class UserService {
     }
   }
 
-  static setToken(String token, String refreshToken, User? user) async {
+  static Future<void> setToken(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
+  static Future<String?> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  static Future<void> removeToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+  }
+
+  /*static setToken(String token, String refreshToken, User? user) async {
     _AuthData data = _AuthData(token, refreshToken);
     await session.set('tokens', data);
     await session.set('user', user);
@@ -147,6 +201,7 @@ class UserService {
 
 class _AuthData {
   String token, refreshToken;
+
   _AuthData(this.token, this.refreshToken);
 
   Map<String, dynamic> toJson() {
@@ -155,5 +210,5 @@ class _AuthData {
     data['token'] = token;
     data['refreshToken'] = refreshToken;
     return data;
-  }
+  }*/
 }
