@@ -146,16 +146,15 @@ class LoginPageState extends State<LoginPage> {
                 MaterialButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      UserService.login(mailController.value.text,
+                      UserController.onLogin(mailController.value.text,
                               passwordController.value.text)
-                          .then((value) {
-                        if (value == true) {
-                          Navigator.pushNamed(context, "/botanist_home");
-                          /*if (User.isBotanist == true) {
+                          .then((user) {
+                        if (user != null) {
+                          if (user.isBotanist) {
                             Navigator.pushNamed(context, "/botanist_home");
                           } else {
                             Navigator.pushNamed(context, "/test");
-                          }*/
+                          }
                         } else {
                           showSnackBar(
                               context,

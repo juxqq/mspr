@@ -139,7 +139,7 @@ class _BotanistHomeState extends State<BotanistHome> {
                                     setState(() {
                                       plantFilter = newValue;
                                     });
-                                    filterPosts();
+                                    filterPlants();
                                   },
                                   items: <String>[
                                     'Rose',
@@ -195,6 +195,7 @@ class _BotanistHomeState extends State<BotanistHome> {
                                     setState(() {
                                       postFilter = newValue;
                                     });
+                                    filterPosts();
                                   },
                                   items: <String>[
                                     'Tous les postes',
@@ -428,8 +429,8 @@ class _BotanistHomeState extends State<BotanistHome> {
     );
   }
 
-  void filterPosts() {
-    if (plantFilter == null || plantFilter == 'Tous les postes') {
+  void filterPlants() {
+    if (plantFilter == null) {
       setState(() {
         filteredPosts = posts; // Afficher tous les posts si aucun filtre n'est sélectionné
       });
@@ -447,6 +448,23 @@ class _BotanistHomeState extends State<BotanistHome> {
           return plant.name == plantFilter;
         })
             .toList();
+      });
+    }
+  }
+
+  void filterPosts() {
+    if (postFilter == 'Tous les postes') {
+      setState(() {
+        filteredPosts = posts; // Afficher tous les posts si aucun filtre n'est sélectionné
+      });
+    }
+    else if (postFilter == 'Les postes gardés') {
+      setState(() {
+        filteredPosts = posts.where((post) => post.idKeeper != 0).toList();
+      });
+    } else if (postFilter == 'Les postes non gardés') {
+      setState(() {
+        filteredPosts = posts.where((post) => post.idKeeper == 0).toList();
       });
     }
   }

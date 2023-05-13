@@ -6,8 +6,7 @@ import 'package:mspr/models/comment.dart';
 import 'package:mspr/share/app_style.dart';
 import 'package:mspr/models/post.dart';
 import 'package:mspr/utils/utils.dart';
-
-import '../../models/user.dart';
+import 'package:mspr/models/user.dart';
 
 class BotanistPostDetails extends StatefulWidget {
   const BotanistPostDetails({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class BotanistPostDetails extends StatefulWidget {
 }
 
 class _BotanistPostDetailsState extends State<BotanistPostDetails> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   DateTime createdAt = DateTime(2002, 5, 17, 10, 30, 0);
   List<User> users = [];
   // User user = UserController().getUser();
@@ -52,9 +51,9 @@ class _BotanistPostDetailsState extends State<BotanistPostDetails> {
           Comment(3, 3, 3, 'Be careful! You gave her too much water !!', '', createdAt),
         ];
         users = [
-          User(1, "Thierry", "Henry", "test@gmail.com", "test", "test", "34290", "test", "", true),
-          User(2, "Thierry", "Henry", "test@gmail.com", "test", "test", "34290", "test", 'assets/img/image-removebg-preview.png', false),
-          User(3, "Thierry", "Henry", "test@gmail.com", "test", "test", "34290", "test", "", true),
+          User(1, "Thierry", "Henry", "test@gmail.com", "test", "test", 34290, "test", "", true),
+          User(2, "Thierry", "Henry", "test@gmail.com", "test", "test", 34290, "test", 'assets/img/image-removebg-preview.png', false),
+          User(3, "Thierry", "Henry", "test@gmail.com", "test", "test", 34290, "test", "", true),
         ];
       });
     });
@@ -281,8 +280,8 @@ class _BotanistPostDetailsState extends State<BotanistPostDetails> {
                               title: Builder(
                                 builder: (BuildContext context) {
                                   User? commenterUser = getUserById(comment.idUser);
-                                  String commenterName = commenterUser != null ? commenterUser.firstname : "Unknown User";
-                                  return commenterUser != null && commenterUser.isBotanist ? const Text("Botaniste") : Text("${commenterUser?.lastname} " "$commenterName");
+                                  String commenterName = commenterUser != null ? commenterUser.firstName : "Unknown User";
+                                  return commenterUser != null && commenterUser.isBotanist ? const Text("Botaniste") : Text("${commenterUser?.lastName} " "$commenterName");
                                 },
                               ),
                               subtitle: Text(comment.content),

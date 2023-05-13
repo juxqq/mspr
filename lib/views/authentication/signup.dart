@@ -252,7 +252,7 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(
                             width: 110,
                             child: (TextFormField(
-                              validator: (value) => value!.validateBirthDate(),
+                              validator: (value) => value!.validateAddress(),
                               controller: addressController,
                               cursorColor: Colors.black,
                               style: const TextStyle(
@@ -491,16 +491,23 @@ class _SignUpState extends State<SignUp> {
                       MaterialButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            showSnackBar(context, 'Inscription en cours...', Colors.grey);
-                            UserController.register(
+                            UserController.onRegister(
                                 emailController.text,
+                                passwordController.text,
                                 lastNameController.text,
                                 firstNameController.text,
                                 addressController.text,
-                                zipCodeController.text,
                                 cityController.text,
-                                passwordController.text,
-                                context);
+                                zipCodeController.text,
+                                '',
+                                false).then((value) {
+                                  if (value == true) {
+                                    Navigator.pushNamed(context, "/main");
+                                    showSnackBar(context, 'Inscription en cours...', Colors.grey);
+                                  } else {
+                                    showSnackBar(context, 'Erreur lors de la création du compte', Colors.red);
+                                  }
+                            });
                           }
                         },
                         height: 45,

@@ -9,7 +9,7 @@ class AppBarWidget extends StatefulWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _selectedIndex = 1;
 
   @override
@@ -36,8 +36,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             title: const Text('Botanistes'),
             activeColor: Colors.green),
         BottomNavyBarItem(
-            icon: Icon(Icons.location_on_outlined),
-            title: Text('Carte'),
+            icon: const Icon(Icons.location_on_outlined),
+            title: const Text('Carte'),
             activeColor: Colors.green),
       ],
     );
