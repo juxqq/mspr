@@ -29,10 +29,28 @@ class UserService {
     }
   }
 
-  static Future<dynamic> updateUser(id, body) async {
+  static Future<dynamic>updateUser(
+      firstName, lastName, email, address, city, zipCode) async {
+    try {
+      await getUser("email", email).then((value) {
+        if (value['response'] == true) {
+          return false;
+        }
+      });
+    } catch (e) {
+      return false;
+    }
+
     try {
       final response =
-      await http.put(Uri.parse('$uri/put.php?id=$id'), body: body);
+      await http.put(Uri.parse('$uri/put.php'), body: {
+        "firstName": "$firstName",
+        "lastName": "$lastName",
+        "email": "$email",
+        "address": "$address",
+        "city": "$city",
+        "zipCode": "$zipCode",
+      });
 
       if (response.statusCode != 200) {
         return false;

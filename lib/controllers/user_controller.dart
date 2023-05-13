@@ -45,4 +45,30 @@ class UserController {
     UserService.setToken(json['token'], json['refreshToken'], user);
     return true;
   }
+
+  static void updateUser(
+      firstName, lastName, email, address, city, zipCode, context) async {
+    await UserService.updateUser(
+      firstName,
+      lastName,
+      email,
+      address,
+      city,
+      zipCode,
+    ).then((value) {
+      if (value == true) {
+        showSnackBar(
+          context,
+          'Your profile has been updated successfully!',
+          Colors.green,
+        );
+      } else {
+        showSnackBar(
+          context,
+          'Failed to update your profile. Please try again later.',
+          Colors.red,
+        );
+      }
+    });
+  }
 }

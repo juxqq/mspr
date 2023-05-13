@@ -81,7 +81,7 @@ extension ValidatorExtensions on String {
     String pattern = r'([0-9]*) ?([a-zA-Z,\. ]*)';
     RegExp regex = RegExp(pattern);
     if (isEmpty || !regex.hasMatch(this)) {
-      return 'Enter a valid adress.';
+      return 'Enter a valid address.';
     }
     return null;
   }
@@ -90,7 +90,7 @@ extension ValidatorExtensions on String {
     String pattern = r'([0-9]*) ?([a-zA-Z,\. ]*)';
     RegExp regex = RegExp(pattern);
     if (isEmpty || !regex.hasMatch(this)) {
-      return 'Enter a valid adress.';
+      return 'Enter a valid city.';
     }
     return null;
   }
