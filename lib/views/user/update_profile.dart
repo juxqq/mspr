@@ -22,6 +22,7 @@ class UpdateProfileState extends State<UpdateProfile> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class UpdateProfileState extends State<UpdateProfile> {
     _addressController.text = widget.user?.address ?? '';
     _cityController.text = widget.user?.city ?? '';
     _zipCodeController.text = widget.user?.zipCode ?? '';
+    _passwordController.text = widget.user?.zipCode ?? '';
   }
 
   @override
@@ -42,6 +44,7 @@ class UpdateProfileState extends State<UpdateProfile> {
     _addressController.dispose();
     _cityController.dispose();
     _zipCodeController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -134,6 +137,30 @@ class UpdateProfileState extends State<UpdateProfile> {
                   return null;                },
               ),
               TextFormField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppStyle.colorGreen,
+                    ),
+                  ),
+                ),
+                cursorColor: AppStyle.colorGreen,
+                obscureText: true,
+                validator: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    String pattern =
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                    RegExp regex = RegExp(pattern);
+                    if (!regex.hasMatch(value) || value.isEmpty) {
+                      return 'At least 1 capital letter, 1 number and 1 special character.';
+                    }
+                  }
+                  return null;
+                  },
+              ),
+              TextFormField(
                 controller: _addressController,
                 decoration: const InputDecoration(
                   labelText: 'Address',
@@ -142,6 +169,7 @@ class UpdateProfileState extends State<UpdateProfile> {
                       color: AppStyle.colorGreen,
                     ),
                   ),
+
                 ),
                 cursorColor: AppStyle.colorGreen,
                 validator: (value) {
@@ -152,7 +180,8 @@ class UpdateProfileState extends State<UpdateProfile> {
                       return 'Enter a valid address.';
                     }
                   }
-                  return null;                },
+                  return null;
+                  },
               ),
               TextFormField(
                 controller: _cityController,
@@ -212,6 +241,7 @@ class UpdateProfileState extends State<UpdateProfile> {
                         _addressController.text,
                         _cityController.text,
                         _zipCodeController,
+                        _passwordController,
                         context);
                   }
                 },

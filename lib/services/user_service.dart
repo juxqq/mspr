@@ -32,28 +32,25 @@ class UserService {
   }
 
   static Future<bool> updateUser(
-      firstName, lastName, email, address, city, zipCode) async {
-    try {
-      final response = await getUser("email", email);
-      if (response['response'] == true) {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
+      firstName, lastName, email, address, city, zipCode, password) async {
 
     try {
+
+      final token = getToken();
+
       final response = await http.put(Uri.parse('$apiUrl/put.php'), body: {
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-        "address": address,
-        "city": city,
-        "zipCode": zipCode,
-      });
+        'email': email,
+        'password': password,
+        'lastName': lastName,
+        'firstName': firstName,
+        'address': address,
+        'city': city,
+        'zipCode': zipCode,
+        'isBotanist': false,
+      }, headers: {'Content-Type'  : 'application/json', 'Authorization' : 'Bearer $token'});
 
-      if (response.statusCode != 200) {
-        return false;
+      if (response.statusCode == 200) {
+        return true;
       }
     } catch (e) {
       return false;

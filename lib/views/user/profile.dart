@@ -147,7 +147,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {Navigator.of(context).pushNamed("/main");
+                                  onTap: () {Navigator.of(context).pushNamed("/botanist_home");
                                     // Handle edit button click
                                   },
                                   child: const Icon(Icons.add_circle_outline_rounded, size: 32),
@@ -210,7 +210,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {Navigator.of(context).pushNamed("/main");
+                                  onTap: () {Navigator.of(context).pushNamed("/botanist_home");
                                     // Handle edit button click
                                   },
                                   child: const Icon(Icons.add_circle_outline_rounded, size: 32),

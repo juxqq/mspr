@@ -47,7 +47,7 @@ class UserController {
   }
 
   static void updateUser(
-      firstName, lastName, email, address, city, zipCode, context) async {
+      firstName, lastName, email, address, city, zipCode, password, context) async {
     await UserService.updateUser(
       firstName,
       lastName,
@@ -55,6 +55,7 @@ class UserController {
       address,
       city,
       zipCode,
+        password
     ).then((value) {
       if (value == true) {
         showSnackBar(

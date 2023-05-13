@@ -11,6 +11,8 @@ import 'package:mspr/views/botaniste/messages.dart';
 import 'package:mspr/views/botaniste/post_details.dart';
 import 'package:mspr/views/botaniste/profile.dart';
 import 'package:mspr/views/botaniste/update_profile.dart';
+import 'package:mspr/views/user/profile.dart';
+import 'package:mspr/views/user/update_profile.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -39,6 +41,8 @@ class MyApp extends StatelessWidget {
         '/botanist_messages': (context) => const BotanistMessages(),
         '/botanist_map': (context) => const BotanistMap(),
         '/botanist_update_profile': (context) => const BotanistUpdateProfile(),
+        '/profile': (context) => const ProfilePage(),
+        '/update_profile': (context) => const UpdateProfile(),
       },
       home: FutureBuilder(
         future: UserService.getToken(),
