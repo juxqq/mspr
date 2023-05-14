@@ -40,6 +40,7 @@ class _UserThreadState extends State<UserThread> {
   final TextEditingController contentMessageController = TextEditingController();
 
   bool isCheckClicked = false;
+  bool isClearClicked = false;
 
 
 
@@ -158,10 +159,8 @@ class _UserThreadState extends State<UserThread> {
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
-
                           ),
                         ),
-
                         subtitle: Row(
                           children: [
                             Flexible(
@@ -173,7 +172,7 @@ class _UserThreadState extends State<UserThread> {
                               ),
                             ),
                             const SizedBox(width: 8),
-                            if (!isCheckClicked) ...[
+                            if (!isClearClicked && !isCheckClicked)
                               Container(
                                 padding: const EdgeInsets.all(4),
                                 child: IconButton(
@@ -183,18 +182,15 @@ class _UserThreadState extends State<UserThread> {
                                     size: 36,
                                   ),
                                   onPressed: () {
-
-                                    // Delete the thread
-
                                     setState(() {
+                                      isClearClicked = true;
                                       isCheckClicked = false;
                                     });
                                   },
                                 ),
                               ),
-                            ],
                             const SizedBox(width: 8),
-                            if (!isCheckClicked) ...[
+                            if (!isClearClicked && !isCheckClicked)
                               Container(
                                 padding: const EdgeInsets.all(4),
                                 child: IconButton(
@@ -205,14 +201,54 @@ class _UserThreadState extends State<UserThread> {
                                   ),
                                   onPressed: () {
                                     setState(() {
+                                      isClearClicked = false;
                                       isCheckClicked = true;
                                     });
                                   },
                                 ),
                               ),
-                            ],
+                            if (isCheckClicked)
+                              Row(
+                                children: const [
+                                  Icon(
+                                    Icons.check,
+                                    color: Colors.green,
+                                    size: 36,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Accepté',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            if (isClearClicked)
+                              Row(
+                                children: const [
+                                  Icon(
+                                    Icons.clear,
+                                    color: Colors.red,
+                                    size: 36,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Refusé',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                           ],
                         ),
+
+
+
+
                         trailing: Image.asset(
                           post.pictureUrl,
                           width: 100,
@@ -221,6 +257,7 @@ class _UserThreadState extends State<UserThread> {
                         ),
                         isThreeLine: true,
                       ),
+
                     ),
                     const SizedBox(
                       height: 20,

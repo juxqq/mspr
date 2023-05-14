@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mspr/controllers/message_controller.dart';
 import 'package:mspr/models/user.dart';
 import 'package:mspr/share/app_style.dart';
 import 'package:mspr/models/message.dart';
-
+import 'package:mspr/widgets/message_item.dart';
 
 class UserMessages extends StatefulWidget {
 
@@ -19,7 +17,6 @@ class _UserMessagesState extends State<UserMessages> {
   List<Message> messages = [];
   List<User> users = [];
   DateTime createdAt = DateTime(2021, 5, 11, 10, 30, 0);
-  bool isCheckClicked = false;
 
   @override
   void initState() {
@@ -146,105 +143,13 @@ class _UserMessagesState extends State<UserMessages> {
                           itemBuilder: (BuildContext context, int index) {
                             final message = messages[index];
                             final user = getUserById(message.idSender);
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/user_thread');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE1FDE1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                margin: const EdgeInsets.only(bottom: 16),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: AssetImage(user?.profilePicture ?? ''),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '${user?.firstName} ${user?.lastName}',
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  if (!isCheckClicked) ...[
-                                                    IconButton(
-                                                      icon: const Icon(
-                                                        Icons.clear,
-                                                        color: Colors.red,
-                                                        size: 36,
-                                                      ),
-                                                      onPressed: () {
-
-                                                        // Delete the thread
-
-                                                        setState(() {
-                                                          isCheckClicked = false;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                  const SizedBox(width: 16),
-                                                  if (!isCheckClicked) ...[
-                                                    IconButton(
-                                                      icon: const Icon(
-                                                        Icons.check,
-                                                        color: Colors.green,
-                                                        size: 36,
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                         // isCheckClicked = true;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 8),
-                                          const Text(
-                                            'Last message: ',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          Text(
-                                            message.content,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                            return MessageItem(message: message, user: user);
                           },
                         ),
                       ],
                     ),
                   ),
                 ),
-
-
               ],
             ),
           ),
