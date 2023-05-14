@@ -10,6 +10,7 @@ import 'package:mspr/views/botaniste/map.dart';
 import 'package:mspr/views/botaniste/messages.dart';
 import 'package:mspr/views/botaniste/post_details.dart';
 import 'package:mspr/views/botaniste/profile.dart';
+import 'package:mspr/views/botaniste/thread.dart';
 import 'package:mspr/views/botaniste/update_profile.dart';
 import 'package:mspr/views/user/messages.dart';
 import 'package:mspr/views/user/profile.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/botanist_post_details': (context) => const BotanistPostDetails(),
         '/botanist_profile': (context) => const BotanistProfile(),
         '/botanist_messages': (context) => const BotanistMessages(),
+        '/botanist_thread': (context) => const BotanistThread(),
         '/botanist_map': (context) => const BotanistMap(),
         '/botanist_update_profile': (context) => const BotanistUpdateProfile(),
         '/user_profile': (context) => const ProfilePage(),
