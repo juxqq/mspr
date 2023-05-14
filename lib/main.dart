@@ -11,6 +11,12 @@ import 'package:mspr/views/botaniste/messages.dart';
 import 'package:mspr/views/botaniste/post_details.dart';
 import 'package:mspr/views/botaniste/profile.dart';
 import 'package:mspr/views/botaniste/update_profile.dart';
+import 'package:mspr/views/user/home.dart';
+import 'package:mspr/views/user/map.dart';
+import 'package:mspr/views/user/messages.dart';
+import 'package:mspr/views/user/post_details.dart';
+import 'package:mspr/views/user/profile.dart';
+import 'package:mspr/views/user/update_profile.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -32,13 +38,18 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main': (context) => const LoginPage(),
         '/signup': (context) => const SignUp(),
-        '/test': (context) => const UserListScreen(),
+        '/user_home': (context) => const UserHome(),
+        '/user_post_details': (context) => const UserPostDetails(),
+        '/user_profile': (context) => const UserProfile(),
+        '/user_update_profile': (context) => const UserUpdateProfile(),
+        '/user_messages': (context) => const UserMessages(),
+        '/user_map': (context) => const UserMap(),
         '/botanist_home': (context) => const BotanistHome(),
         '/botanist_post_details': (context) => const BotanistPostDetails(),
         '/botanist_profile': (context) => const BotanistProfile(),
+        '/botanist_update_profile': (context) => const BotanistUpdateProfile(),
         '/botanist_messages': (context) => const BotanistMessages(),
         '/botanist_map': (context) => const BotanistMap(),
-        '/botanist_update_profile': (context) => const BotanistUpdateProfile(),
       },
       home: FutureBuilder(
         future: UserService.getToken(),

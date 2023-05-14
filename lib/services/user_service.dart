@@ -51,7 +51,7 @@ class UserService {
           body: jsonEncode(requestPayload),
           headers: {'Content-Type': 'application/json'});
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       }
     } catch (e) {

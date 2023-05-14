@@ -151,7 +151,7 @@ class LoginPageState extends State<LoginPage> {
                           if (user.isBotanist) {
                             Navigator.pushNamed(context, "/botanist_home");
                           } else {
-                            Navigator.pushNamed(context, "/test");
+                            Navigator.pushNamed(context, "/user_home");
                           }
                         } else {
                           showSnackBar(

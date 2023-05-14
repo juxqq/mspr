@@ -26,6 +26,8 @@ class ThreadService {
   static Future<bool> createThread(idPost, idCreator, createdAt, messages) async {
     final token = await getToken();
 
+    print(token);
+
     Map<String, dynamic> requestPayload = {
       "idPost": idPost,
       "idCreator": idCreator,
@@ -42,9 +44,10 @@ class ThreadService {
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return true;
     } else {
+      print(response.body);
       throw Exception('Error while trying to create a thread');
     }
   }
@@ -71,6 +74,6 @@ class ThreadService {
   }
 
   static getToken() {
-    UserService.getToken();
+    return UserService.getToken();
   }
 }
