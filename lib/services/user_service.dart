@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:mspr/models/user.dart';
@@ -59,7 +61,7 @@ class UserService {
   }
 
   static Future<List<dynamic>> getUsers() async {
-    final token = getToken();
+    final token = await getToken();
     final response = await http.get(Uri.parse('$apiUrl/api/users'), headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
@@ -70,13 +72,38 @@ class UserService {
       final users = data['hydra:member'];
 
       return users;
+    } else if (response.statusCode == 401) {
+      removeToken();
+      throw Exception('Token expired');
     } else {
       throw Exception('Failed to load users');
     }
   }
 
-  static Future<User?> getUser(email) async {
-    final token = getToken();
+  static Future<User?> getUser(id) async {
+    final token = await getToken();
+
+    try {
+      final response = await http.get(Uri.parse('$apiUrl/api/users/$id'), headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        User user = User.fromJson(responseBody);
+        print(user);
+
+        return user;
+      }
+    } catch (e) {
+      throw Exception('Failed to get user');
+    }
+    return null;
+  }
+
+  static Future<User?> getUserByEmail(email) async {
+    final token = await getToken();
     final id = getUserIdByEmail(email);
 
     try {
@@ -100,7 +127,7 @@ class UserService {
 
   static Future<dynamic> updateUser(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist) async {
     final id = getUserIdByEmail(email);
-    final token = getToken();
+    final token = await getToken();
     Map<String, dynamic> requestPayload = {
       "email": email,
       "roles": [],

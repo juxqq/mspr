@@ -8,7 +8,7 @@ class PostService {
   static final apiUrl = dotenv.env['API_URL'];
 
   static Future<List<dynamic>> getPosts() async {
-    final token = getToken();
+    final token = await getToken();
     final response = await http.get(Uri.parse('$apiUrl/api/posts'), headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
@@ -57,7 +57,7 @@ class PostService {
   }
 
   static Future<Post?> getPost(id) async {
-    final token = getToken();
+    final token = await getToken();
 
     try {
       final response = await http.get(

@@ -8,7 +8,7 @@ class UserPlantService {
   static final apiUrl = dotenv.env['API_URL'];
 
   static Future<List<dynamic>> getUserPlants() async {
-    final token = getToken();
+    final token = await getToken();
 
     final response = await http.get(
         Uri.parse('$apiUrl/api/user_plants'), headers: {
@@ -26,7 +26,7 @@ class UserPlantService {
   }
 
   static Future<UserPlant?> getUserPlant(id) async {
-    final token = getToken();
+    final token = await getToken();
 
     try {
       final response = await http.get(Uri.parse('$apiUrl/api/user_plants/$id'), headers: {

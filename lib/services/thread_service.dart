@@ -8,7 +8,7 @@ class ThreadService {
   static final apiUrl = dotenv.env['API_URL'];
 
   static Future<List<dynamic>> getThreads() async {
-    final token = getToken();
+    final token = await getToken();
     final response = await http.get(Uri.parse('$apiUrl/api/threads'), headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
@@ -50,7 +50,7 @@ class ThreadService {
   }
 
   static Future<Thread?> getThread(id) async {
-    final token = getToken();
+    final token = await getToken();
 
     try {
       final response = await http.get(Uri.parse('$apiUrl/api/threads/$id'), headers: {

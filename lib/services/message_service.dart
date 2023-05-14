@@ -8,7 +8,7 @@ class MessageService {
   static final apiUrl = dotenv.env['API_URL'];
 
   static Future<List<dynamic>> getMessages() async {
-    final token = getToken();
+    final token = await getToken();
 
     final response = await http.get(Uri.parse('$apiUrl/api/messages'), headers: {
       'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class MessageService {
   }
 
   static Future<Message?> getMessage(id) async {
-    final token = getToken();
+    final token = await getToken();
 
     try {
       final response = await http.get(Uri.parse('$apiUrl/api/messages/$id'), headers: {

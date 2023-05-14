@@ -7,7 +7,7 @@ class CommentService {
   static final apiUrl = dotenv.env['API_URL'];
 
   static Future<List<dynamic>> getComments() async {
-    final token = getToken();
+    final token = await getToken();
 
     final response = await http.get(Uri.parse('$apiUrl/api/comments'), headers: {
       'Content-Type': 'application/json',
@@ -27,8 +27,8 @@ class CommentService {
     final token = await getToken();
 
     Map<String, dynamic> requestPayload = {
-      "idUser": idUser,
-      "idPost": idPost,
+      "idUser": "api/users/$idUser",
+      "idPost": "api/posts/$idPost",
       "content": content,
       "pictureUrl": pictureUrl,
       "createdAt": createdAt,
@@ -43,10 +43,11 @@ class CommentService {
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return true;
     } else {
-      throw Exception('Error while trying to create a comment');
+      String errorMessage = response.body;
+      throw Exception('Error while trying to create a comment: $errorMessage');
     }
   }
 

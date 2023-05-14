@@ -8,7 +8,7 @@ class PlantService {
   static final apiUrl = dotenv.env['API_URL'];
 
   static Future<List<dynamic>> getPlants() async {
-    final token = getToken();
+    final token = await getToken();
 
     final response = await http.get(Uri.parse('$apiUrl/api/plants'), headers: {
       'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ class PlantService {
   }
 
   static Future<Plant?> getPlant(name) async {
-    final token = getToken();
+    final token = await getToken();
     final id = getPlantIdByName(name);
 
     try {

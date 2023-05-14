@@ -14,8 +14,12 @@ class UserController {
     return await UserService.getUsers();
   }
 
-  static Future<User?> onGetUser(email) async {
-    return await UserService.getUser(email);
+  static Future<User?> onGetUserByEmail(email) async {
+    return await UserService.getUserByEmail(email);
+  }
+
+  static Future<User?> onGetUser(id) async {
+    return await UserService.getUser(id);
   }
 
   static Future<bool> onUpdateUser(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist) async {
