@@ -21,31 +21,4 @@ class UserController {
   static Future<bool> onUpdateUser(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist) async {
     return await UserService.updateUser(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist);
   }
-
-  static void updateUser(
-      firstName, lastName, email, address, city, zipCode, password, context) async {
-    await UserService.updateUser(
-      firstName,
-      lastName,
-      email,
-      address,
-      city,
-      zipCode,
-        password
-    ).then((value) {
-      if (value == true) {
-        showSnackBar(
-          context,
-          'Your profile has been updated successfully!',
-          Colors.green,
-        );
-      } else {
-        showSnackBar(
-          context,
-          'Failed to update your profile. Please try again later.',
-          Colors.red,
-        );
-      }
-    });
-  }
 }

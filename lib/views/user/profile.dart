@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mspr/widgets/bottom_nav_bar.dart';
+import 'package:mspr/share/app_style.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -9,7 +9,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  int _selectedIndex = 1;
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/user_profile');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/user_messages');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/user_home');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/user_map');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +95,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {Navigator.of(context).pushNamed("/update_profile");
+                                  onTap: () {Navigator.of(context).pushNamed("/user_update_profile");
                                     // Handle edit button click
                                   },
                                   child: const Icon(Icons.edit_square, size: 32),
@@ -147,7 +169,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {Navigator.of(context).pushNamed("/botanist_home");
+                                  onTap: () {Navigator.of(context).pushNamed("/user_home");
                                     // Handle edit button click
                                   },
                                   child: const Icon(Icons.add_circle_outline_rounded, size: 32),
@@ -210,7 +232,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {Navigator.of(context).pushNamed("/botanist_home");
+                                  onTap: () {Navigator.of(context).pushNamed("/user_home");
                                     // Handle edit button click
                                   },
                                   child: const Icon(Icons.add_circle_outline_rounded, size: 32),
@@ -246,6 +268,38 @@ class ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        iconSize: 30,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box_outlined),
+            label: "",
+            backgroundColor: AppStyle.bottomNavBarColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message_outlined),
+            label: "",
+            backgroundColor: AppStyle.bottomNavBarColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: "",
+            backgroundColor: AppStyle.bottomNavBarColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_outlined),
+            label: "",
+            backgroundColor: AppStyle.bottomNavBarColor,
+          ),
+        ],
       ),
     );
   }

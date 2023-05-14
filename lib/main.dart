@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
         '/botanist_messages': (context) => const BotanistMessages(),
         '/botanist_map': (context) => const BotanistMap(),
         '/botanist_update_profile': (context) => const BotanistUpdateProfile(),
-        '/profile': (context) => const ProfilePage(),
-        '/update_profile': (context) => const UpdateProfile(),
+        '/user_profile': (context) => const ProfilePage(),
+        '/user_update_profile': (context) => const UpdateProfile(),
       },
       home: FutureBuilder(
         future: UserService.getToken(),

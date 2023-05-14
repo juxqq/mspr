@@ -3,7 +3,7 @@ import 'package:mspr/models/user.dart';
 
 import '../../controllers/user_controller.dart';
 import '../../share/app_style.dart';
-import '../../utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UpdateProfile extends StatefulWidget {
   final User? user;
@@ -23,17 +23,23 @@ class UpdateProfileState extends State<UpdateProfile> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _profilePictureController = TextEditingController();
+
+  PickedFile? _profilePictureFile; // Variable to hold the picked image file
+
 
   @override
   void initState() {
     super.initState();
-    _firstNameController.text = widget.user?.firstname ?? '';
-    _lastNameController.text = widget.user?.lastname ?? '';
+    _firstNameController.text = widget.user?.firstName ?? '';
+    _lastNameController.text = widget.user?.lastName ?? '';
     _emailController.text = widget.user?.email ?? '';
     _addressController.text = widget.user?.address ?? '';
     _cityController.text = widget.user?.city ?? '';
-    _zipCodeController.text = widget.user?.zipCode ?? '';
-    _passwordController.text = widget.user?.zipCode ?? '';
+    _zipCodeController.text = (widget.user?.zipCode ?? '').toString();
+    _passwordController.text = widget.user?.password ?? '';
+    _profilePictureController.text = widget.user?.profilePicture ?? '';
+
   }
 
   @override
@@ -45,6 +51,7 @@ class UpdateProfileState extends State<UpdateProfile> {
     _cityController.dispose();
     _zipCodeController.dispose();
     _passwordController.dispose();
+    _profilePictureController.dispose();
     super.dispose();
   }
 
@@ -226,23 +233,48 @@ class UpdateProfileState extends State<UpdateProfile> {
                   }
                   return null;                },
               ),
+              GestureDetector(
+                onTap: () async {
+                  final imagePicker = ImagePicker();
+                  final pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
+                  setState(() {
+                    _profilePictureFile = pickedFile;
+                  });
+                },
+                child: TextFormField(
+                  controller: _profilePictureController,
+                  decoration: const InputDecoration(
+                    labelText: 'Pick a profile picture',
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppStyle.colorGreen,
+                      ),
+                    ),
+                  ),
+                  cursorColor: AppStyle.colorGreen,
+                  enabled: false,
+                ),
+              ),
+
+
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: const Color(0xFFD7F4D0), // set the background color
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    showSnackBar(context, 'Updating profile...', Colors.grey);
 
-                    UserController.updateUser(
-                        _firstNameController.text,
-                        _lastNameController.text,
+                    UserController.onUpdateUser(
                         _emailController.text,
+                        _passwordController,
+                        _lastNameController.text,
+                        _firstNameController.text,
                         _addressController.text,
                         _cityController.text,
                         _zipCodeController,
-                        _passwordController,
-                        context);
+                        _profilePictureController.text,
+                        false,
+                        );
                   }
                 },
 
