@@ -77,7 +77,7 @@ extension ValidatorExtensions on String {
     return null;
   }
 
-  String? validateAdress() {
+  String? validateAddress() {
     String pattern = r'([0-9]*) ?([a-zA-Z,\. ]*)';
     RegExp regex = RegExp(pattern);
     if (isEmpty || !regex.hasMatch(this)) {

@@ -1,4 +1,5 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mspr/models/comment.dart';
+import 'package:mspr/models/thread.dart';
 
 class Post {
   final int id;
@@ -11,6 +12,8 @@ class Post {
   final String longitude;
   final DateTime createdAt;
   final DateTime updatedAt;
+  List<Comment>? comments;
+  List<Thread>? threads;
 
   Post(
       this.id,
@@ -34,5 +37,7 @@ class Post {
         latitude = json['latitude'],
         longitude = json['longitude'],
         createdAt = json['createdAt'],
-        updatedAt = json['updatedAt'];
+        updatedAt = json['updatedAt'],
+        comments = json['comments'],
+        threads = json['threads'];
 }

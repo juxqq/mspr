@@ -19,7 +19,7 @@ class _UserListScreenState extends State<UserListScreen> {
   }
 
   Future<void> _loadUsers() async {
-    final users = await userService.getUsers();
+    final users = await UserService.getUsers();
     setState(() {
       _users = users;
     });
