@@ -23,14 +23,12 @@ class ThreadService {
     }
   }
 
-  static Future<bool> createThread(idPost, idCreator, createdAt, messages) async {
+  static Future<int> createThread(idPost, idCreator, createdAt, messages) async {
     final token = await getToken();
 
-    print(token);
-
     Map<String, dynamic> requestPayload = {
-      "idPost": idPost,
-      "idCreator": idCreator,
+      "idPost": "api/posts/$idPost",
+      "idCreator": "api/users/$idCreator",
       "createdAt": createdAt,
       "messages": messages,
     };
@@ -45,9 +43,11 @@ class ThreadService {
     );
 
     if (response.statusCode == 201) {
-      return true;
+      final responseBody = jsonDecode(response.body);
+      final idThread = responseBody['id'];
+
+      return idThread;
     } else {
-      print(response.body);
       throw Exception('Error while trying to create a thread');
     }
   }

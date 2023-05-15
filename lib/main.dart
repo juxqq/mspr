@@ -7,12 +7,14 @@ import 'package:mspr/views/authentication/signup.dart';
 import 'package:mspr/views/authentication/user_list_screen.dart';
 import 'package:mspr/views/botaniste/home.dart';
 import 'package:mspr/views/botaniste/map.dart';
+import 'package:mspr/views/botaniste/message_details.dart';
 import 'package:mspr/views/botaniste/messages.dart';
 import 'package:mspr/views/botaniste/post_details.dart';
 import 'package:mspr/views/botaniste/profile.dart';
 import 'package:mspr/views/botaniste/update_profile.dart';
 import 'package:mspr/views/user/home.dart';
 import 'package:mspr/views/user/map.dart';
+import 'package:mspr/views/user/message_details.dart';
 import 'package:mspr/views/user/messages.dart';
 import 'package:mspr/views/user/post_details.dart';
 import 'package:mspr/views/user/profile.dart';
@@ -43,12 +45,14 @@ class MyApp extends StatelessWidget {
         '/user_profile': (context) => const UserProfile(),
         '/user_update_profile': (context) => const UserUpdateProfile(),
         '/user_messages': (context) => const UserMessages(),
+        '/user_messages_details': (context) => const UserMessagesDetails(),
         '/user_map': (context) => const UserMap(),
         '/botanist_home': (context) => const BotanistHome(),
         '/botanist_post_details': (context) => const BotanistPostDetails(),
         '/botanist_profile': (context) => const BotanistProfile(),
         '/botanist_update_profile': (context) => const BotanistUpdateProfile(),
         '/botanist_messages': (context) => const BotanistMessages(),
+        '/botanist_messages_details': (context) => const BotanistMessagesDetails(),
         '/botanist_map': (context) => const BotanistMap(),
       },
       home: FutureBuilder(

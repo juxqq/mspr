@@ -6,7 +6,7 @@ class MessageController {
     return MessageService.getMessages();
   }
 
-  static Future<bool> onCreateMessage(idThread, idSender, content, createdAt) async {
+  static Future<Message?> onCreateMessage(idThread, idSender, content, createdAt) async {
     return MessageService.createMessage(idThread, idSender, content, createdAt);
   }
 

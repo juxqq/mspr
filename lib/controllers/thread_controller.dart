@@ -6,7 +6,7 @@ class ThreadController {
     return ThreadService.getThreads();
   }
 
-  static Future<bool> onCreateThread(idPost, idCreator, createdAt, messages) async {
+  static Future<int> onCreateThread(idPost, idCreator, createdAt, messages) async {
     return ThreadService.createThread(idPost, idCreator, createdAt, messages);
   }
 

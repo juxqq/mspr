@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mspr/controllers/comment_controller.dart';
-import 'package:mspr/models/plant.dart';
-import 'package:mspr/models/user_plant.dart';
-import 'package:mspr/services/comment_service.dart';
 import 'package:mspr/services/post_service.dart';
 import 'package:mspr/services/user_plant_service.dart';
 import 'package:mspr/share/app_style.dart';

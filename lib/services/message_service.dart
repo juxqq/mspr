@@ -24,12 +24,12 @@ class MessageService {
     }
   }
 
-  static Future<bool> createMessage(idThread, idSender, content, createdAt) async {
+  static Future<Message?> createMessage(idThread, idSender, content, createdAt) async {
     final token = await getToken();
 
     Map<String, dynamic> requestPayload = {
-      "idThread": idThread,
-      "idSender": idSender,
+      "idThread": "api/threads/$idThread",
+      "idSender": "api/users/$idSender",
       "content": content,
       "createdAt": createdAt,
     };
@@ -44,8 +44,12 @@ class MessageService {
     );
 
     if (response.statusCode == 200) {
-      return true;
+      final responseBody = jsonDecode(response.body);
+      Message message = Message.fromJson(responseBody);
+
+      return message;
     } else {
+      print(response.body);
       throw Exception('Error while trying to create a message');
     }
   }
