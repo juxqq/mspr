@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignUp(),
         '/user_home': (context) => const UserHome(),
         '/user_post_details': (context) => const UserPostDetails(),
-        '/user_profile': (context) => const UserProfile(),
+        '/user_profile': (context) => const UserProfilePage(),
         '/user_update_profile': (context) => const UserUpdateProfile(),
         '/user_messages': (context) => const UserMessages(),
         '/user_messages_details': (context) => const UserMessagesDetails(),
