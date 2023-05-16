@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mspr/models/user.dart';
-
-import '../../controllers/user_controller.dart';
-import '../../share/app_style.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mspr/controllers/user_controller.dart';
+import 'package:mspr/models/user.dart';
+import 'package:mspr/share/app_style.dart';
 
-class UserUpdateProfile extends StatefulWidget {
+class BotanistUpdateProfile extends StatefulWidget {
   final User? user;
-  const UserUpdateProfile({Key? key, this.user}) : super(key: key);
+  const BotanistUpdateProfile({Key? key, this.user}) : super(key: key);
 
   @override
-  UserUpdateProfileState createState() => UserUpdateProfileState();
+  _BotanistUpdateProfileState createState() => _BotanistUpdateProfileState();
 }
 
-class UserUpdateProfileState extends State<UserUpdateProfile> {
+class _BotanistUpdateProfileState extends State<BotanistUpdateProfile> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _firstNameController = TextEditingController();
@@ -26,7 +25,6 @@ class UserUpdateProfileState extends State<UserUpdateProfile> {
   final TextEditingController _profilePictureController = TextEditingController();
 
   PickedFile? _profilePictureFile; // Variable to hold the picked image file
-
 
   @override
   void initState() {
@@ -54,7 +52,6 @@ class UserUpdateProfileState extends State<UserUpdateProfile> {
     _profilePictureController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -263,8 +260,7 @@ class UserUpdateProfileState extends State<UserUpdateProfile> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-
-                    UserController.onUpdateUser(
+                    final success = await UserController.onUpdateUser(
                       _emailController.text,
                       _passwordController,
                       _lastNameController.text,
@@ -273,16 +269,31 @@ class UserUpdateProfileState extends State<UserUpdateProfile> {
                       _cityController.text,
                       _zipCodeController,
                       _profilePictureController.text,
-                      false,
+                      true,
                     );
+
+                    if (success) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Your profile has been updated successfully!'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Failed to update your profile. Please try again later.'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   }
                 },
-
                 child: const Text(
-                    'Save Changes',
-                    style: TextStyle(color: Colors.black)),
+                  'Save Changes',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-
             ],
           ),
         ),
