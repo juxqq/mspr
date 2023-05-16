@@ -1,48 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:mspr/extensions/validator_extensions.dart';
 import 'package:mspr/models/user.dart';
 import 'package:mspr/services/user_service.dart';
-import 'package:mspr/utils/utils.dart';
 
 class UserController {
-  static void register(email, lastName, firstName, birthDate, zipCode, city, password, context) async {
-    await UserService.createUser(
-        email, lastName, firstName, birthDate, zipCode, city, password.hashPass())
-        .then((value) {
-      if (value == true) {
-        Navigator.pushNamed(context, '/main');
-        showSnackBar(
-            context,
-            'Inscription réussie ! Veuillez confirmer votre adresse mail.',
-            Colors.green);
-      } else {
-        showSnackBar(
-            context,
-            'Inscription impossible ! Un compte utilise déjà cettez adresse mail.',
-            Colors.red);
-      }
-    });
+  static Future<bool> onRegister(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist) async {
+    return await UserService.register(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist);
   }
 
-  static Future<bool> connect(login, String password) async {
-    var json = await UserService.getUser("email", login);
+  static Future<User?> onLogin(email, password) async {
+    return await UserService.login(email, password);
+  }
 
-    if (json['response'] == false) {
-      return false;
-    }
+  static Future<List<dynamic>> onGetUsers() async {
+    return await UserService.getUsers();
+  }
 
-    User user = User.fromJson(json);
-    var hash = password.hashPass();
+  static Future<User?> onGetUserByEmail(email) async {
+    return await UserService.getUserByEmail(email);
+  }
 
-    if (user.id == 0 || user.password != hash) {
-      return false;
-    }
+  static Future<User?> onGetUser(id) async {
+    return await UserService.getUser(id);
+  }
 
-    if (json['confirmed'] == '0') {
-      return false;
-    }
-
-    UserService.setToken(json['token'], json['refreshToken'], user);
-    return true;
+  static Future<bool> onUpdateUser(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist) async {
+    return await UserService.updateUser(email, password, lastName, firstName, address, city, zipCode, profilePicture, isBotanist);
   }
 }

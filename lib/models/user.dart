@@ -1,17 +1,17 @@
 class User {
   final int id;
-  final String lastname;
-  final String firstname;
-  final String adress;
-  final String city;
-  final String zipCode;
-  final String plant;
-  final String role;
+  final String lastName;
+  final String firstName;
   final String email;
-  final String password;
-  final DateTime birthDate;
-  final DateTime dateRegistration;
+  final String address;
+  final String city;
+  final int zipCode;
+  String? password;
   final String profilePicture;
+  final bool isBotanist;
+  List? roles;
+  List? plants;
+  List? plantsKept;
 
   /*get pdp{
     return NetworkImage('$uriApi/images/$pdpName');
@@ -19,33 +19,29 @@ class User {
 
   User(
       this.id,
-      this.lastname,
-      this.firstname,
-      this.adress,
+      this.lastName,
+      this.firstName,
+      this.email,
+      this.address,
       this.city,
       this.zipCode,
-      this.plant,
-      this.role,
-      this.email,
       this.password,
-      this.birthDate,
-      this.dateRegistration,
-      this.profilePicture);
+      this.profilePicture,
+      this.isBotanist);
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        lastname = json['lastname'],
-        firstname = json['firstname'],
-        adress = json['adress'],
+        email = json['email'],
+        roles = json['roles'],
+        lastName = json['lastName'],
+        firstName = json['firstName'],
+        address = json['address'],
         city = json['city'],
         zipCode = json['zipCode'],
-        plant = json['plant'],
-        role = json['role'],
-        email = json['email'],
-        password = json['password'],
-        birthDate = json['birthDate'],
-        dateRegistration = json['dateRegistration'],
-        profilePicture = json['profilePicture'];
+        profilePicture = json['profilePicture'],
+        isBotanist = json['isBotanist'],
+        plants = json['plants'],
+        plantsKept = json['plantsKept'];
 
 /*  Map<String, dynamic> toJson() => {
         'id': id,

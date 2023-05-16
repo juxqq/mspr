@@ -144,15 +144,19 @@ class LoginPageState extends State<LoginPage> {
                 MaterialButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      UserController.connect(mailController.value.text,
+                      UserController.onLogin(mailController.value.text,
                               passwordController.value.text)
-                          .then((value) {
-                        if (value == true) {
-                          Navigator.pushNamed(context, "/settings");
+                          .then((user) {
+                        if (user != null) {
+                          if (user.isBotanist) {
+                            Navigator.pushNamed(context, "/botanist_home");
+                          } else {
+                            Navigator.pushNamed(context, "/user_home");
+                          }
                         } else {
                           showSnackBar(
                               context,
-                              'Identifiants incorrects ou compte non confirmé',
+                              'Identifiants incorrects',
                               Colors.red);
                         }
                       });
